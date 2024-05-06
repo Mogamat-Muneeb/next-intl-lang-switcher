@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import Image from "next/image";
-import { StaticImageData } from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
@@ -23,14 +21,30 @@ const LangSwitcher: React.FC = () => {
 
   const setOption = (option: Option) => {
     setIsOptionsExpanded(false);
-    router.push(`/${option.code}`);
+
+    const pathSegments = pathname
+      .split("/")
+      .filter((segment) => segment.trim() !== "");
+    let newPath = `/${option.code}`;
+
+    if (
+      pathSegments.length > 0 &&
+      options.some((opt) => opt.code === pathSegments[0])
+    ) {
+      pathSegments[0] = option.code;
+      newPath = `/${pathSegments.join("/")}`;
+    } else {
+      newPath += pathname !== "/" ? pathname : "";
+    }
+
+    router.push(newPath);
   };
 
   return (
     <div className="flex items-center justify-center ">
       <div className="relative text-lg w-48">
         <button
-          className=" justify-between w-full border border-gray-500 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className=" justify-between w-full border border-gray-500 text-white bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center "
           onClick={() => setIsOptionsExpanded(!isOptionsExpanded)}
           onBlur={() => setIsOptionsExpanded(false)}
         >

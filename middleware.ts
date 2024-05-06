@@ -12,5 +12,10 @@ export default middleware;
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/', '/(nl|en)/:page*']
+  // matcher: ['/', '/(nl|en)/:page*']
+  matcher: '/((?!api|static|.*\\..*|_next).*)'
+  //  matcher: '/(nl|en)/.*'
+  // matcher: ['/(nl)/', '/(en)/', '/(nl|en)/.*']
+
+  // matcher: ['/nl/:page*', '/en/:page*']
 };
